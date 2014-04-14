@@ -38,7 +38,7 @@ public class WebDriverFactory {
 
 		if (webDriver == null) {
 			
-			server = new ProxyServer(4444);
+			server = new ProxyServer(4443);
 			server.start();
 			Proxy proxy = server.seleniumProxy();
 			DesiredCapabilities capabilities = new DesiredCapabilities();
