@@ -10,6 +10,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import ua.lviv.testers.testcase.testcategories.HomePageTest;
+import ua.lviv.testers.webdriver.ProxyServerInstance;
 import ua.lviv.testers.webdriver.WebDriverFactory;
 
 public class HomePageTestSuite extends HomePageTest{
@@ -29,19 +30,20 @@ public class HomePageTestSuite extends HomePageTest{
 	@Test (groups = {"groupLQAS", "all", "mobile"})
 	//TS 1.3
 	public void checkElementClassAttribute(){
-		JavascriptExecutor jsEcecution = (JavascriptExecutor) eventDriver;
+		//JavascriptExecutor jsEcecution = (JavascriptExecutor) eventDriver;
+		JavascriptExecutor jsEcecution = (JavascriptExecutor) getDriver();
 		String result = (String) jsEcecution.executeScript("return document.getElementById('menu-item-10').getAttribute('class')");
 		Assert.assertTrue(result.contains("menu-item menu-item-type"));
 	}
-	
+	/*
 	@Test (groups = {"groupLQAS", "all", "mobile"})
 	//TS 1.4
 	public void gatherHARfromTestWebSite() throws IOException{
-		Har har = WebDriverFactory.server.getHar();
+		Har har = ProxyServerInstance.getServerInstance().getServer().getHar();
 		File harFile = new File("target/harfile.har");
 		har.writeTo(harFile);
 		Assert.assertTrue(harFile.length() != 0);
 	}
-	
+	*/
 	
 }

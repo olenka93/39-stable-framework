@@ -52,7 +52,7 @@ public class MyPageFactory extends PageFactory{
                             return js.executeScript("return document.readyState").equals("complete");
                     }
             };
-            Wait<WebDriver> wait = new FluentWait<WebDriver>(WebDriverFactory.getInstance())  
+            Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)  
 		             .withTimeout(30, TimeUnit.SECONDS)  
 		             .pollingEvery(5, TimeUnit.SECONDS);
             try {

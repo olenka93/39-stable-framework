@@ -26,7 +26,7 @@ public class LoginPageTestSuite extends LoginPageTest{
 		//Thread.sleep(4000); to see that it works
 		Assert.assertTrue(login.isAvatarDisplayed(), "Avatar is not displayed");
 	}
-	
+	/*
 	@Test (groups = {"groupLQAS", "all", "mobile"}, priority=1)
 	//TS 2.2
 	public void addNewPost() throws InterruptedException{
@@ -40,6 +40,6 @@ public class LoginPageTestSuite extends LoginPageTest{
         //TODO with PageOBject
         String textPost = eventDriver.findElement(By.id("icon-edit")).findElement(By.xpath("//h2")).getText();
         Assert.assertEquals(textPost, "Add New Post");
-	}
+	}*/
 	
 }

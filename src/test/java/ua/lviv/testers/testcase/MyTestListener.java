@@ -8,6 +8,8 @@ import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.remote.Augmenter;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.ITestResult;
 import org.testng.Reporter;
 import org.testng.TestListenerAdapter;
@@ -68,7 +70,8 @@ public class MyTestListener extends TestListenerAdapter{
 				SimpleDateFormat formater = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
 				//TODO get screenshot
 				Thread.sleep(3000);
-				File f = ((TakesScreenshot) WebDriverFactory.getInstance()).getScreenshotAs(OutputType.FILE);
+				
+				File f = ((TakesScreenshot) new Augmenter().augment()).getScreenshotAs(OutputType.FILE);
 				String fileName = result.getName() + "_" + formater.format(Calendar.getInstance().getTime()) + SCREENSHOT_FORMAT;
 				FileUtils.copyFile(f, new File(dir.getAbsoluteFile() + "/" + fileName));
 				File directory = new File(".");
