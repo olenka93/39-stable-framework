@@ -29,16 +29,15 @@ import ua.lviv.testers.webdriver.WebDriverFactory;
  */
 
 public class TestBase{
-	
-	protected RemoteWebDriver webDriver;
-	protected EventFiringWebDriver eventDriver;
-	protected ThreadLocal<EventFiringWebDriver> threadDriver = null;
-	WebDriverFactory facrotryDriver = new WebDriverFactory();
-	
+
+	protected RemoteWebDriver rmtWebDriver;
+	protected ThreadLocal<EventFiringWebDriver> threadDriver = new ThreadLocal<EventFiringWebDriver>();
+	WebDriverFactory factoryDriver = new WebDriverFactory();
+
 	protected static String testUrl;
 	protected static String username;
 	protected static String password;
-	
+
 	public static String getUsermail() {
 		return username;
 	}
@@ -46,11 +45,11 @@ public class TestBase{
 	public static String getPassword() {
 		return password;
 	}
-	
+
 	public static String getUrl() {
 		return testUrl;
 	}
-	
+
 	protected HomePage home;
 
 	@Parameters({"browserName"})
@@ -58,11 +57,11 @@ public class TestBase{
 	public void init(String browserName) throws Exception {
 
 		Browser.setBrowser(browserName);
-		
+
 		testUrl = PropertyLoader.loadProperty("test.url");
 		username = PropertyLoader.loadProperty("user.username");
 		password = PropertyLoader.loadProperty("user.password");
-		
+
 		/*
 		 //Firefox hub 
 		threadDriver = new ThreadLocal<RemoteWebDriver>();
@@ -72,7 +71,7 @@ public class TestBase{
         dc.setBrowserName(DesiredCapabilities.firefox().getBrowserName());
         threadDriver.set(new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), dc));
 		*/
-		
+
 		/*
 		 //Chrome hub
 		
@@ -81,34 +80,35 @@ public class TestBase{
         dc.setBrowserName(DesiredCapabilities.chrome().getBrowserName());
         threadDriver.set(new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), dc));
 		*/
-		
-		threadDriver = new ThreadLocal<EventFiringWebDriver>();
-		
-		webDriver = facrotryDriver.getInstance();
-		eventDriver = new EventFiringWebDriver(webDriver);
-		eventDriver.register(new WebDriverListener());
-		
-		threadDriver.set(eventDriver);
-		
+
+		//threadDriver = new ThreadLocal<WebDriver>();
+
+		rmtWebDriver = factoryDriver.getInstance();
+		EventFiringWebDriver efwd = new EventFiringWebDriver(rmtWebDriver);
+		WebDriverListener eventListener = new WebDriverListener(rmtWebDriver);
+		efwd.register(eventListener);
+
+		threadDriver.set(efwd);
+
 		//ProxyServerInstance.getServerInstance().getServer().newHar(testUrl);
-		
+
 		/*
 		eventDriver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);	
 		eventDriver.get(testUrl);
-		home = MyPageFactory.initElements(webDriver, HomePage.class);
+		home = MyPageFactory.initElements(eventDriver, HomePage.class);
 		*/
 		
-        getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);	
-        getDriver().get(testUrl);
-		home = MyPageFactory.initElements(getDriver(), HomePage.class);
-		
+		threadDriver.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);	
+		threadDriver.get().get(testUrl);
+		home = MyPageFactory.initElements(threadDriver.get(), HomePage.class);
+		 
 	}
-	
+
 	@AfterMethod(groups = {"groupLQAS", "all", "mobile"})
 	public void reopenApp() throws Exception{
 		//eventDriver.quit();
 		//webDriver().quit();
-		getDriver().quit();
+		threadDriver.get().quit();
 		/*
 		if (webDriver != null) {
 			WebDriverFactory.killDriverInstance();
@@ -116,10 +116,11 @@ public class TestBase{
 		*/
 		//ProxyServerInstance.getServerInstance().stopProxyServer();
 	}
-	
-	
+
+/*
 	public WebDriver getDriver() {
-        return threadDriver.get();
+       return threadDriver.get();
+		//return eventDriver;
     }
-	
+*/
 }

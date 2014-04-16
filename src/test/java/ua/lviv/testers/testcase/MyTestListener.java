@@ -1,15 +1,23 @@
 package ua.lviv.testers.testcase;
 
+import java.awt.Rectangle;
+import java.awt.Robot;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import javax.imageio.ImageIO;
+
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.testng.ITestResult;
 import org.testng.Reporter;
 import org.testng.TestListenerAdapter;
@@ -71,9 +79,15 @@ public class MyTestListener extends TestListenerAdapter{
 				//TODO get screenshot
 				Thread.sleep(3000);
 				
-				File f = ((TakesScreenshot) new Augmenter().augment()).getScreenshotAs(OutputType.FILE);
 				String fileName = result.getName() + "_" + formater.format(Calendar.getInstance().getTime()) + SCREENSHOT_FORMAT;
-				FileUtils.copyFile(f, new File(dir.getAbsoluteFile() + "/" + fileName));
+				BufferedImage image = new Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+				ImageIO.write(image, "png", new File(dir.getAbsoluteFile() + "/" + fileName));
+				
+				/*File f = ((TakesScreenshot) new Augmenter().augment(webDriver)).getScreenshotAs(OutputType.FILE);
+				String fileName = result.getName() + "_" + formater.format(Calendar.getInstance().getTime()) + SCREENSHOT_FORMAT;
+				FileUtils.copyFile(, new File(dir.getAbsoluteFile() + "/" + fileName));*/
+				
+				//format ghml report
 				File directory = new File(".");
          		String newFileNamePath = directory.getCanonicalPath();
          		Reporter.log("<a href=" + newFileNamePath + "/" + folder + "/" + fileName + " target='_blank' >" +
@@ -96,5 +110,5 @@ public class MyTestListener extends TestListenerAdapter{
 			dir.mkdir();
 		}
 	}
-	
+
 }

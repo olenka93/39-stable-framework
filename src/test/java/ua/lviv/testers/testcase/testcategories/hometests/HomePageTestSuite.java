@@ -31,7 +31,7 @@ public class HomePageTestSuite extends HomePageTest{
 	//TS 1.3
 	public void checkElementClassAttribute(){
 		//JavascriptExecutor jsEcecution = (JavascriptExecutor) eventDriver;
-		JavascriptExecutor jsEcecution = (JavascriptExecutor) getDriver();
+		JavascriptExecutor jsEcecution = (JavascriptExecutor) threadDriver.get();
 		String result = (String) jsEcecution.executeScript("return document.getElementById('menu-item-10').getAttribute('class')");
 		Assert.assertTrue(result.contains("menu-item menu-item-type"));
 	}
