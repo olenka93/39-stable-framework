@@ -117,10 +117,10 @@ public class TestBase{
 		//ProxyServerInstance.getServerInstance().stopProxyServer();
 	}
 
-/*
+
 	public WebDriver getDriver() {
        return threadDriver.get();
 		//return eventDriver;
     }
-*/
+
 }

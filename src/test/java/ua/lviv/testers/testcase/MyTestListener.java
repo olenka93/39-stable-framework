@@ -26,7 +26,7 @@ import ua.lviv.testers.webdriver.WebDriverFactory;
 
 public class MyTestListener extends TestListenerAdapter{
 	
-	private static final String SCREENSHOT_FOLDER = "target/screenshots/";
+	private static final String SCREENSHOT_FOLDER = "screenshots/";
 	private static final String SCREENSHOT_FORMAT = ".png";
 
 	private void printTestResults(ITestResult result) {
@@ -79,13 +79,19 @@ public class MyTestListener extends TestListenerAdapter{
 				//TODO get screenshot
 				Thread.sleep(3000);
 				
+				//JAva fullscreen screenshot
 				String fileName = result.getName() + "_" + formater.format(Calendar.getInstance().getTime()) + SCREENSHOT_FORMAT;
 				BufferedImage image = new Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
 				ImageIO.write(image, "png", new File(dir.getAbsoluteFile() + "/" + fileName));
 				
-				/*File f = ((TakesScreenshot) new Augmenter().augment(webDriver)).getScreenshotAs(OutputType.FILE);
-				String fileName = result.getName() + "_" + formater.format(Calendar.getInstance().getTime()) + SCREENSHOT_FORMAT;
-				FileUtils.copyFile(, new File(dir.getAbsoluteFile() + "/" + fileName));*/
+				
+				//selenium browser screenshot
+				//Object currentInstance = result.getInstance();
+				//RemoteWebDriver rmtScreen = ((TestBase) currentInstance).getRmtWebDriver();
+				//File f = ((TakesScreenshot) new Augmenter().augment(rmtScreen)).getScreenshotAs(OutputType.FILE);
+				//File f = ((TakesScreenshot) rmtScreen).getScreenshotAs(OutputType.FILE);
+				//String fileName = result.getName() + "_" + formater.format(Calendar.getInstance().getTime()) + SCREENSHOT_FORMAT;
+				//FileUtils.copyFile(f, new File(dir.getAbsoluteFile() + "/" + fileName));
 				
 				//format ghml report
 				File directory = new File(".");

@@ -12,16 +12,18 @@ import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 import org.testng.Reporter;
 
-import ua.lviv.testers.webdriver.WebDriverFactory;
+import waiter.PageLoadedCreateria;
+
 
 public class MyPageFactory extends PageFactory{
 	
-	public static <T> T initElements(WebDriver driver, Class<T> pageClassToProxy) {
+	public static <T extends PageLoadedCreateria> T myInitElements(WebDriver driver, Class<T> pageClassToProxy) {
         T page = instantiatePage(driver, pageClassToProxy);
         initElements(driver, page);
         try {
 			waitForNextPageToLoad(driver);
-		} catch (Exception e) {
+			waitUntil(page, 30);
+			} catch (Exception e) {
 			Reporter.log("Page was not loaded fully because of " + e.getMessage());
 		}
         return page;
@@ -61,5 +63,15 @@ public class MyPageFactory extends PageFactory{
                     Reporter.log("Timeout waiting page to Load because of: " + error.getMessage());
             }
     }
-    
+
+    private static <T extends PageLoadedCreateria> void waitUntil(T page, int seconds) throws Exception {
+		int step = 0;
+		while (! page.criteria()){
+			Thread.sleep(1000);
+			step ++;
+			if (step == seconds + 1) {
+				throw new Exception ("Fail: seconds spent: " + seconds + ", condition wasn't true");
+			}
+		}
+    }
 }

@@ -23,4 +23,10 @@ public class LoginPage extends Page{
 		return avatarImage.isDisplayed();
 	}
 
+	@Override
+	public boolean criteria() {
+		// TODO Auto-generated method stub
+		return avatarImage.isDisplayed();
+	}
+
 }

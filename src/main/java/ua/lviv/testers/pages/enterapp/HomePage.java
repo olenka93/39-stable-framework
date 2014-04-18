@@ -13,6 +13,7 @@ import org.testng.Reporter;
 
 import ua.lviv.testers.pages.MyPageFactory;
 import ua.lviv.testers.pages.Page;
+import waiter.PageLoadedCreateria;
 
 
 public class HomePage extends Page{
@@ -58,7 +59,7 @@ public class HomePage extends Page{
 		loginButton.click();
 		//Reporting to html report view
 		Reporter.log("Loging to Admin Page with login name " + loginName + " and password " + password, true);
-		return MyPageFactory.initElements(webDriver, LoginPage.class);
+		return MyPageFactory.myInitElements(webDriver, LoginPage.class);
 	}
 	
 	public boolean verifySignInDisapearing() throws InterruptedException{
@@ -68,4 +69,15 @@ public class HomePage extends Page{
 		return signInMenu.isDisplayed();
 	}
 
+	@Override
+	public boolean criteria() {
+		return webDriver.getTitle().contains("Testers");
+	}
+
+	
+	/*
+	@Override
+	public boolean criteriaLoadedForPage() {		
+		return webDriver.getTitle().contains("");
+	}*/
 }

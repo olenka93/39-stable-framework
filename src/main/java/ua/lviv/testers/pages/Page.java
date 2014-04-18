@@ -5,14 +5,25 @@ import java.util.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import waiter.PageLoadedCreateria;
+
 /*
  * Abstract class representation of a Page in the UI with additional features. Page object pattern
  * @author Taras Lytvyn
  */
-public abstract class Page {
+public abstract class Page implements PageLoadedCreateria{
 
 	protected WebDriver webDriver;
+	/*
+	public PageLoadedCreateria criteriaLoaded = new PageLoadedCreateria() {
+		@Override
+		public boolean criteria() {
+			return criteriaLoadedForPage();
+		}
+	};
 	
+	public abstract boolean criteriaLoadedForPage();
+	*/
 	/*
 	 * Constructor injecting the WebDriver interface
 	 * 

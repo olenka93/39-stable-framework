@@ -4,6 +4,7 @@ import java.net.URL;
 
 import net.lightbody.bmp.proxy.ProxyServer;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -72,6 +73,7 @@ public class WebDriverFactory {
 				webDriver = new InternetExplorerDriver();
 			//}
 		}
+		webDriver.manage().window().maximize();
 		
 		return webDriver;
 	}
